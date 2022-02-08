@@ -1,0 +1,6 @@
+-   id: line-no-commit
+    name: Remove debug statements before commit
+    description: This pre-commit hook removes lines which are annotated using '# nocommit'
+    require_serial: false
+    language: python
+    entry: line-no-commit
