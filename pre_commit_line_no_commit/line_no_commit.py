@@ -5,7 +5,7 @@ import sys
 import re
 
 
-__version__ = '0.0.2'
+__version__ = '0.0.1'
 
 
 CR = '\r'
@@ -69,7 +69,7 @@ def format_code(source):
     code_lines = source.splitlines()
     new_line = find_newline(code_lines)
     
-    for line in code_lines():
+    for line in code_lines:
         if not NO_COMMIT_COMMENT_REGEX_COMPILED.search(line):
             new_code_lines.append(line)
 
@@ -101,13 +101,12 @@ def remove_no_commit_lines(filenames, args):
         except Exception:
             outcomes[ExitCodes.error] += 1
 
-        return ExitCodes.ok
-
     return_codes = [
         ExitCodes.error,
         ExitCodes.check_failed,
         ExitCodes.ok,
     ]
+
     for code in return_codes:
         if outcomes[code]:
             return code
