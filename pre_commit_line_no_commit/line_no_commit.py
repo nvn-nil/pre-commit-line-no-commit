@@ -5,9 +5,6 @@ import sys
 import re
 
 
-__version__ = '0.0.1'
-
-
 CR = '\r'
 LF = '\n'
 CRLF = '\r\n'
@@ -65,6 +62,7 @@ def find_py_files(filenames):
 
 def format_code(source):
     new_code_lines = []
+    file_corrected = False
 
     code_lines = source.splitlines()
     new_line = find_newline(code_lines)
@@ -72,17 +70,20 @@ def format_code(source):
     for line in code_lines:
         if not NO_COMMIT_COMMENT_REGEX_COMPILED.search(line):
             new_code_lines.append(line)
+        else:
+            file_corrected = True
 
-    return f"{new_line}".join(new_code_lines)
+
+    return f"{new_line}".join(new_code_lines), file_corrected
 
 
 def format_file(filename, args):
     with open(filename) as fi:
         source = fi.read()
 
-        formatted_source = format_code(source)
+        formatted_source, file_corrected = format_code(source)
 
-        if source != formatted_source:
+        if source != formatted_source and file_corrected:
             if args.check:
                 return ExitCodes.check_failed
 
